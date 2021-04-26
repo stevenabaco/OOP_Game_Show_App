@@ -3,4 +3,5 @@
  * By STEVEN ABACO
  */
 
-
+const game = new Game();
+game.startGame();

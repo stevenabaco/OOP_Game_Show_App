@@ -19,11 +19,11 @@ class Game {
 	 */
 	createPhrases() {
 		const phrases = [
-			{ phrase: 'Life is like a box of Choclates' },
-			{ phrase: 'Beating around the bush' },
-			{ phrase: 'A piece of cake' },
-			{ phrase: "It's a dime a dozen" },
-			{ phrase: 'Back to square one' },
+			new Phrase('Life is like a box of Choclates'),
+			new Phrase('Beating around the bush'),
+			new Phrase('A piece of cake'),
+			new Phrase("A dime a dozen"),
+			new Phrase('Back to square one'),
 		];
 
 		return phrases;
@@ -33,10 +33,19 @@ class Game {
 	 * Selects random phrase from phrases property
 	 * @return {Object} random Phrase object chosen to be used
 	 */
-  getRandomPhrase() {
-    const randomIndex = Math.floor(Math.random() * (this.phrases.length))
-    const selectedPhrase = this.phrases[randomIndex];
-    return selectedPhrase
-  }
- 
+	getRandomPhrase() {
+		const randomIndex = Math.floor(Math.random() * this.phrases.length);
+		const selectedPhrase = this.phrases[randomIndex];
+		return selectedPhrase;
+	}
+
+	/**
+	 * Begins game by selecting a random phrase and displaying it to user
+	 */
+	startGame() {
+		const screenOverlay = document.getElementById('overlay');
+		screenOverlay.style.display = 'none';
+		this.activePhrase = this.getRandomPhrase();
+		this.activePhrase.addPhraseToDisplay();
+	}
 }
