@@ -3,5 +3,12 @@
  * By STEVEN ABACO
  */
 
-const game = new Game();
-game.startGame();
+const buttonStart = document.getElementById('btn__reset');
+
+let game;
+
+buttonStart.addEventListener('click', function() {
+  game = new Game
+  game.startGame();
+  
+});
