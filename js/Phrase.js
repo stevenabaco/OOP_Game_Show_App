@@ -4,7 +4,7 @@
  */
 
 class Phrase {
-  constructor() {
-    
+  constructor(phrase) {
+    this.phrase = phrase.toLowerCase(); // transform phrase being used to lowercase
   }
 }
