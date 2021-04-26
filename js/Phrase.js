@@ -20,11 +20,35 @@ class Phrase {
 			const li = document.createElement('li');
 			ul.appendChild(li);
 			li.innerHTML = character[0]; //Add selected character to li
-			if (character.charAt(0) === ' ') { //Add conditional classes
+			if (character.charAt(0) === ' ') {
+				//Add conditional classes
 				li.classList.add('space');
 			} else {
-				li.classList.add('hide', 'letter', character.charAt(0)); 
+				li.classList.add('hide', 'letter', character.charAt(0));
 			}
 		});
 	}
+
+	/**
+	 * Checks if passed letter is in phrase
+	 * @param {string} letter - Letter to check
+   * @return {boolean} True if letter is included False if letter is not included in phrase
+	 */
+	checkLetter(letter) {
+		return this.phrase.includes(letter) ? true : false;
+	}
+
+	/**
+	 * Displays passed letter on screen after a match is found
+	 * @param {string} key - Letter to display
+	 */
+  showMatchedLetter(key) {
+    const phraseLetters = document.querySelectorAll('#phrase li') // Select all letters in phrase
+    for (let letter of phraseLetters) { // Loop through letters to find matches
+      if (letter.outerText === key.target.textContent) { // If match found show letters
+        letter.classList.remove('hide');
+        letter.classList.add('show');
+      }
+    }
+  };
 }
