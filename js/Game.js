@@ -48,6 +48,48 @@ class Game {
 		this.activePhrase = this.getRandomPhrase();
 		this.activePhrase.addPhraseToDisplay();
 	}
+	/**
+	 * Checks for winning move
+	 * @return {boolean} True if game has been won, false if game wasn't won
+	 */
+	checkForWin() {
+		let shown = []; //declare variable to track the shown letters
+		const letters = document.querySelectorAll('#phrase li'); // Select all letters in phrase
+		for (let i = 0; i < letters.length; i++) {
+			// Loop through letters to check if all letters have been revealed
+			if (letters[i].classList.contains('show')) {
+				shown.push(letters[i]); // If revealed push to shown
+			}
+		}
+		return shown.length === letters.length ? true : false;
+	}
+
+	/**
+	 * Increases the value of the missed property
+	 * Removes a life from the scoreboard
+	 * Checks if player has remaining lives and ends game if player is out
+	 */
+	removeLife() {
+		this.missed += 1; // Add a point to missed if user guessed wrong
+		const hearts = document.querySelector('#scoreboard ol');
+		// Either end game or remove life if user guessed wrong
+		hearts.children.length === 0
+			? console.log('GAME OVER!')
+			: hearts.lastElementChild.remove();
+	}
+
+	/**
+	 * Displays game over message
+	 * @param {boolean} gameWon - Whether or not the user won the game
+	 */
+  gameOver(gameWon) {
+    const screenOverlay = document.getElementById('overlay');
+    const gameOverMessage = document.getElementById('game-over-message')
+    const ul = document.querySelector('#phrase ul');
+    screenOverlay.style.display = "";// Add back the overlay
+    gameOverMessage.textContent = gameWon === true ? 'Congrats! You won!' : 'Sorry! You lost.'
+    ul.innerHTML = null // Reset phrase to be emptry 
+  }
 
 	/**
 	 * Actions to be performed when user clicks on one of the onscreen keyboard buttons.
@@ -59,9 +101,9 @@ class Game {
 	 * * If the game is won or lost, a message should be displayed on screen.
 	 * *
 	 */
-  handleInteraction(e) {
-    this.activePhrase.checkLetter(e.target.textContent) === false
+	handleInteraction(e) {
+		this.activePhrase.checkLetter(e.target.textContent) === false
 			? console.log('Nope!')
 			: this.activePhrase.showMatchedLetter(e);
-  }
+	}
 }
