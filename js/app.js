@@ -28,7 +28,7 @@ document.addEventListener('keyup', function (e) { //event listener for keybord e
 
 for (let key of keyrows) { //event listener for click events on keys
 	key.addEventListener('click', function (e) {
-		game.handleInteraction(e, e.target.innerText);
+		game.handleInteraction(e.target, e.target.innerText);
 	});
 }
 

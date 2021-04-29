@@ -14,10 +14,12 @@ If the selected letter is not in the phrase, one of the player's hearts in the s
 
 The player keeps choosing letters until they reveal all the letters in the phrase, or they make five incorrect guesses.
 
-## Extra features added to the app
+## Extra features and custom styles added to the app
 
 <ul>
-  <li> * Added the ability to listen for keyboard entry of letters instead of just clicking. </li>
+  <li> * Added the ability to listen for keyboard entry of letters instead of just clicking. 
+  </li>
+
 </ul>  
 
 ## Languages & Frameworks
