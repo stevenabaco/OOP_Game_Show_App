@@ -17,7 +17,7 @@ class Phrase {
 
 		stringArray.forEach(character => {
 			//Loop through each character and create li element
-			const li = document.createElement('li');
+      const li = document.createElement('li');
 			ul.appendChild(li);
 			li.innerHTML = character[0]; //Add selected character to li
 			if (character.charAt(0) === ' ') {
@@ -26,13 +26,13 @@ class Phrase {
 			} else {
 				li.classList.add('hide', 'letter', character.charAt(0));
 			}
-		});
+    });
 	}
 
 	/**
 	 * Checks if passed letter is in phrase
 	 * @param {string} letter - Letter to check
-   * @return {boolean} True if letter is included False if letter is not included in phrase
+	 * @return {boolean} True if letter is included False if letter is not included in phrase
 	 */
 	checkLetter(letter) {
 		return this.phrase.includes(letter) ? true : false;
@@ -42,13 +42,17 @@ class Phrase {
 	 * Displays passed letter on screen after a match is found
 	 * @param {string} key - Letter to display
 	 */
-  showMatchedLetter(key) {
-    const phraseLetters = document.querySelectorAll('#phrase li') // Select all letters in phrase
-    for (let letter of phraseLetters) { // Loop through letters to find matches
-      if (letter.outerText === key.target.textContent) { // If match found show letters
-        letter.classList.remove('hide');
-        letter.classList.add('show');
-      }
-    }
-  };
+	showMatchedLetter(key) {
+		const phraseLetters = document.querySelectorAll('#phrase li'); // Select all letters in phrase
+		const targetTextContent = key.target.textContent; // Select just the text content of target input
+		if (this.checkLetter(targetTextContent)) {
+			for (let letter of phraseLetters) {
+				// Loop through letters to find matches
+				if (letter.innerHTML === targetTextContent) {
+					letter.classList.remove('hide');
+					letter.classList.add('show'); // Reveal matched letter on gameboard
+				}
+			}
+		}
+	}
 }

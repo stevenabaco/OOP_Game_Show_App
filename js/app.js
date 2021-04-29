@@ -17,6 +17,6 @@ buttonStart.addEventListener('click', function () {
 
 for (let key of keyrows) {
   key.addEventListener('click', function (e) {
-      game.handleInteraction(e)    
+    game.handleInteraction(e)
   });
 }

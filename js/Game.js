@@ -42,54 +42,70 @@ class Game {
 	/**
 	 * Begins game by selecting a random phrase and displaying it to user
 	 */
-	startGame() {
+  startGame() {
+    this.resetGameBoard();
 		const screenOverlay = document.getElementById('overlay');
 		screenOverlay.style.display = 'none';
 		this.activePhrase = this.getRandomPhrase();
 		this.activePhrase.addPhraseToDisplay();
 	}
+
 	/**
 	 * Checks for winning move
 	 * @return {boolean} True if game has been won, false if game wasn't won
 	 */
 	checkForWin() {
-		let shown = []; //declare variable to track the shown letters
-		const letters = document.querySelectorAll('#phrase li'); // Select all letters in phrase
+		const letters = document.querySelectorAll('.letter');
+		const hiddenLetters = document.querySelectorAll('.hide');
 		for (let i = 0; i < letters.length; i++) {
-			// Loop through letters to check if all letters have been revealed
-			if (letters[i].classList.contains('show')) {
-				shown.push(letters[i]); // If revealed push to shown
-			}
+			return hiddenLetters.length === 0 ? true : false;
 		}
-		return shown.length === letters.length ? true : false;
 	}
 
 	/**
 	 * Increases the value of the missed property
 	 * Removes a life from the scoreboard
-	 * Checks if player has remaining lives and ends game if player is out
+	 * Checks if player has remaining lives and ends game if player has no more
 	 */
 	removeLife() {
+		const hearts = document.querySelectorAll('.tries img');
 		this.missed += 1; // Add a point to missed if user guessed wrong
-		const hearts = document.querySelector('#scoreboard ol');
 		// Either end game or remove life if user guessed wrong
-		hearts.children.length === 0
-			? console.log('GAME OVER!')
-			: hearts.lastElementChild.remove();
+		this.missed === 6
+			? this.gameOver(false)
+			: (hearts[this.missed - 1].src = 'images/lostHeart.png');
 	}
 
 	/**
 	 * Displays game over message
 	 * @param {boolean} gameWon - Whether or not the user won the game
 	 */
-  gameOver(gameWon) {
-    const screenOverlay = document.getElementById('overlay');
-    const gameOverMessage = document.getElementById('game-over-message')
-    const ul = document.querySelector('#phrase ul');
-    screenOverlay.style.display = "";// Add back the overlay
-    gameOverMessage.textContent = gameWon === true ? 'Congrats! You won!' : 'Sorry! You lost.'
-    ul.innerHTML = null // Reset phrase to be emptry 
-  }
+	gameOver(gameWon) {
+		const screenOverlay = document.getElementById('overlay');
+		const gameOverMessage = document.getElementById('game-over-message');
+		const ul = document.querySelector('#phrase ul');
+		screenOverlay.style = ''; // Add back the overlay
+		if (gameWon) {
+			screenOverlay.classList.add('win');
+			gameOverMessage.textContent = 'Congrats! You won!';
+		}
+
+		if (!gameWon) {
+			screenOverlay.classList.add('lose');
+			gameOverMessage.textContent = 'Sorry, better luck next time!';
+		}
+	}
+
+	/**
+	 * Function to remove all child nodes of the parent node
+	 * This function was found via google search at https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/
+	 * @param {*} parent - The parent node of the elements to be removed
+	 */
+	removeAllChildNodes(parent) {
+		while (parent.firstChild) {
+			parent.removeChild(parent.firstChild);
+		}
+	}
 
 	/**
 	 * Actions to be performed when user clicks on one of the onscreen keyboard buttons.
@@ -101,9 +117,36 @@ class Game {
 	 * * If the game is won or lost, a message should be displayed on screen.
 	 * *
 	 */
-	handleInteraction(e) {
-		this.activePhrase.checkLetter(e.target.textContent) === false
-			? console.log('Nope!')
-			: this.activePhrase.showMatchedLetter(e);
+	handleInteraction(event) {
+		const targetTextContent = event.target.textContent; // Select just the text content of target input
+		event.target.disabled = true; // Disable pressed button
+		if (this.activePhrase.checkLetter(targetTextContent) === true) {
+			// Change color of keyboard key based on if guess is correct or not
+			event.target.classList.add('chosen');
+		} else {
+			event.target.classList.add('wrong');
+			this.removeLife();
+		}
+		this.activePhrase.showMatchedLetter(event); //Reveal correct guesses on gameboard
+		this.checkForWin() ? this.gameOver(true) : null;
+	}
+
+	resetGameBoard() {
+		const ulElement = document.querySelector('#phrase ul'); // Select ul element with all li as children
+		const keys = document.querySelectorAll('div .keyrow button'); // Select all button keys
+    const screenOverlay = document.getElementById('overlay'); // Select the overlay element
+    const hearts = document.querySelectorAll('.tries img'); // Select the hearts
+    this.removeAllChildNodes(ulElement);
+    
+    screenOverlay.className = 'start'; // Reset screen overlay to 'Start'
+		
+    for (let key of keys) { //Reset the keyss to all be enabled
+			key.disabled = false;
+			key.className = 'key';
+    }
+    
+    for (let heart of hearts) { //Reset all the hearts to show all lives
+      heart.src = 'images/liveHeart.png'; 
+    }
 	}
 }
