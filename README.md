@@ -17,9 +17,11 @@ The player keeps choosing letters until they reveal all the letters in the phras
 ## Extra features and custom styles added to the app
 
 <ul>
-  <li> * Added the ability to listen for keyboard entry of letters instead of just clicking. 
-  </li>
-
+  <li> Added the ability to listen for keyboard entry of letters instead of just clicking. </li>
+  <li> Added logic to change the button to say "Play Again" after a game instead of "Start Game".</li>
+  <li> Added hover effect for start button to change color on hover</li>
+  <li>Added custom colors for the letter reveal, matched, and missed keys.</li>
+  <li>Added custom overlay colors for the final win or lose </li>
 </ul>  
 
 ## Languages & Frameworks

@@ -84,7 +84,10 @@ class Game {
 		const screenOverlay = document.getElementById('overlay');
 		const gameOverMessage = document.getElementById('game-over-message');
 		const ul = document.querySelector('#phrase ul');
+		const startBtn = document.getElementById('btn__reset')
+		startBtn.innerText = 'Play again'
 		screenOverlay.style = ''; // Add back the overlay
+
 		if (gameWon) {
 			screenOverlay.classList.add('win');
 			gameOverMessage.textContent = 'Congrats! You won!';
