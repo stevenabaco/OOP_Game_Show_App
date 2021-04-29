@@ -44,7 +44,7 @@ class Phrase {
 	 */
 	showMatchedLetter(key) {
 		const phraseLetters = document.querySelectorAll('#phrase li'); // Select all letters in phrase
-		const targetTextContent = key.target.textContent; // Select just the text content of target input
+		const targetTextContent = key.textContent; // Select just the text content of target input
 		if (this.checkLetter(targetTextContent)) {
 			for (let letter of phraseLetters) {
 				// Loop through letters to find matches

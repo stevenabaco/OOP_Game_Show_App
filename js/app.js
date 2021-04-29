@@ -3,9 +3,10 @@
  * By STEVEN ABACO
  */
 
-// Assgin require DOM elements to variables
+//Set Global variable declarations
 const buttonStart = document.getElementById('btn__reset');
 const keyrows = document.querySelectorAll('.keyrow button');
+const keys = Array.from(keyrows);
 
 let game; // Declare a global game variable with no instance
 
@@ -15,8 +16,20 @@ buttonStart.addEventListener('click', function () {
 	game.startGame();
 });
 
-for (let key of keyrows) {
-  key.addEventListener('click', function (e) {
-    game.handleInteraction(e)
-  });
+document.addEventListener('keyup', function (e) { //event listener for keybord entries
+  // console.log(e)
+  for (let i = 0; i < keys.length; i++) {
+    if (keys[i].innerText === e.key) {
+      game.handleInteraction(keys[i], keys[i].innerText);
+    }
+    // console.log(keys[i])
+  }
+})
+
+for (let key of keyrows) { //event listener for click events on keys
+	key.addEventListener('click', function (e) {
+		game.handleInteraction(e, e.target.innerText);
+	});
 }
+
+/**  */

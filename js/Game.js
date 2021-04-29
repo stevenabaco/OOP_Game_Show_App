@@ -44,10 +44,10 @@ class Game {
 	 */
   startGame() {
     this.resetGameBoard();
-		const screenOverlay = document.getElementById('overlay');
-		screenOverlay.style.display = 'none';
-		this.activePhrase = this.getRandomPhrase();
-		this.activePhrase.addPhraseToDisplay();
+		const screenOverlay = document.getElementById('overlay'); // Get the screen overlay
+		screenOverlay.style.display = 'none'; // Hide the screen overlay
+		this.activePhrase = this.getRandomPhrase(); // Set active phrase to a random phrase
+		this.activePhrase.addPhraseToDisplay();// render the empty boxes for the active phrase
 	}
 
 	/**
@@ -117,14 +117,14 @@ class Game {
 	 * * If the game is won or lost, a message should be displayed on screen.
 	 * *
 	 */
-	handleInteraction(event) {
-		const targetTextContent = event.target.textContent; // Select just the text content of target input
-		event.target.disabled = true; // Disable pressed button
-		if (this.activePhrase.checkLetter(targetTextContent) === true) {
+	handleInteraction(event, letter) {
+		// const targetTextContent = event.target.innerText; // Select just the text content of target input
+		
+		if (this.activePhrase.checkLetter(letter) === true) {
 			// Change color of keyboard key based on if guess is correct or not
-			event.target.classList.add('chosen');
+			event.classList.add('chosen');
 		} else {
-			event.target.classList.add('wrong');
+			event.classList.add('wrong');
 			this.removeLife();
 		}
 		this.activePhrase.showMatchedLetter(event); //Reveal correct guesses on gameboard
