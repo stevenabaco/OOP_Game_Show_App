@@ -13,6 +13,22 @@ class Game {
 		this.activePhrase = null; //Phrase object that is currently in play
 	}
 
+	keyEventListener(e) {
+			//event listener for keybord entries
+			for (let i = 0; i < keys.length; i++) {
+				if (keys[i].innerText === e.key && keys[i].className === 'key') {
+					e.target.keyCode = null;
+					keys[i].disabled = true;
+					game.handleInteraction(keys[i], keys[i].innerText);
+				}
+			}
+			// console.log(keys[i])
+		};
+	
+	removeKeyListener() {
+		document.removeEventListener('keyup', this.keyEventListener);
+	}
+
 	/**
 	 * Creates phrases for use in game
 	 * @return {array} An array of phrases that could be used in the game
@@ -42,12 +58,12 @@ class Game {
 	/**
 	 * Begins game by selecting a random phrase and displaying it to user
 	 */
-  startGame() {
-    this.resetGameBoard();
+	startGame() {
+		this.resetGameBoard();
 		const screenOverlay = document.getElementById('overlay'); // Get the screen overlay
 		screenOverlay.style.display = 'none'; // Hide the screen overlay
 		this.activePhrase = this.getRandomPhrase(); // Set active phrase to a random phrase
-		this.activePhrase.addPhraseToDisplay();// render the empty boxes for the active phrase
+		this.activePhrase.addPhraseToDisplay(); // render the empty boxes for the active phrase
 	}
 
 	/**
@@ -84,9 +100,10 @@ class Game {
 		const screenOverlay = document.getElementById('overlay');
 		const gameOverMessage = document.getElementById('game-over-message');
 		const ul = document.querySelector('#phrase ul');
-		const startBtn = document.getElementById('btn__reset')
-		startBtn.innerText = 'Play again'
+		const startBtn = document.getElementById('btn__reset');
+		startBtn.innerText = 'Play again';
 		screenOverlay.style = ''; // Add back the overlay
+		this.removeKeyListener();
 
 		if (gameWon) {
 			screenOverlay.classList.add('win');
@@ -121,11 +138,10 @@ class Game {
 	 * *
 	 */
 	handleInteraction(event, letter) {
-		// const targetTextContent = event.target.innerText; // Select just the text content of target input
-		
 		if (this.activePhrase.checkLetter(letter) === true) {
 			// Change color of keyboard key based on if guess is correct or not
 			event.classList.add('chosen');
+			event.disabled = true;
 		} else {
 			event.classList.add('wrong');
 			this.removeLife();
@@ -137,19 +153,22 @@ class Game {
 	resetGameBoard() {
 		const ulElement = document.querySelector('#phrase ul'); // Select ul element with all li as children
 		const keys = document.querySelectorAll('div .keyrow button'); // Select all button keys
-    const screenOverlay = document.getElementById('overlay'); // Select the overlay element
-    const hearts = document.querySelectorAll('.tries img'); // Select the hearts
-    this.removeAllChildNodes(ulElement);
-    
-    screenOverlay.className = 'start'; // Reset screen overlay to 'Start'
-		
-    for (let key of keys) { //Reset the keyss to all be enabled
+		const screenOverlay = document.getElementById('overlay'); // Select the overlay element
+		const hearts = document.querySelectorAll('.tries img'); // Select the hearts
+		this.removeAllChildNodes(ulElement);
+
+		document.removeEventListener('keyup', function () {});
+		screenOverlay.className = 'start'; // Reset screen overlay to 'Start'
+
+		for (let key of keys) {
+			//Reset the keys to all be enabled
 			key.disabled = false;
 			key.className = 'key';
-    }
-    
-    for (let heart of hearts) { //Reset all the hearts to show all lives
-      heart.src = 'images/liveHeart.png'; 
-    }
+		}
+
+		for (let heart of hearts) {
+			//Reset all the hearts to show all lives
+			heart.src = 'images/liveHeart.png';
+		}
 	}
 }

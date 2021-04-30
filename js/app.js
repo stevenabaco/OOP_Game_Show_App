@@ -14,20 +14,14 @@ buttonStart.addEventListener('click', function () {
 	//Initialize instance of a new game
 	game = new Game();
 	game.startGame();
+  document.addEventListener('keyup', game.keyEventListener);
 });
 
-document.addEventListener('keyup', function (e) { //event listener for keybord entries
-  // console.log(e)
-  for (let i = 0; i < keys.length; i++) {
-    if (keys[i].innerText === e.key) {
-      game.handleInteraction(keys[i], keys[i].innerText);
-    }
-    // console.log(keys[i])
-  }
-})
-
-for (let key of keyrows) { //event listener for click events on keys
+for (let key of keyrows) {
+	//event listener for click events on keys
 	key.addEventListener('click', function (e) {
+		e.target.disabled = true;
+
 		game.handleInteraction(e.target, e.target.innerText);
 	});
 }
