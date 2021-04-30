@@ -87,7 +87,7 @@ class Game {
 		const hearts = document.querySelectorAll('.tries img');
 		this.missed += 1; // Add a point to missed if user guessed wrong
 		// Either end game or remove life if user guessed wrong
-		this.missed === 6
+		this.missed === 5
 			? this.gameOver(false)
 			: (hearts[this.missed - 1].src = 'images/lostHeart.png');
 	}
